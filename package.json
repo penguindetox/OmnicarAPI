@@ -1,0 +1,21 @@
+{
+  "name": "carjudgeapi",
+  "version": "1.0.0",
+  "description": "api for talking to the rc car with bluetooth and piping camera stream to java image recognition system",
+  "main": "./build/main.js",
+  "scripts": {
+    "start": "tsc && node ./build/main.js"
+  },
+  "keywords": [
+    "Car"
+  ],
+  "author": "penguindetox",
+  "license": "ISC",
+  "dependencies": {
+    "@abandonware/noble": "^1.9.2-15",
+    "ws": "^8.5.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.3"
+  }
+}
