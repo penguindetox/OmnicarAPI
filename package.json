@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@abandonware/noble": "^1.9.2-15",
+    "@types/node": "^17.0.23",
     "ws": "^8.5.0"
   },
   "devDependencies": {

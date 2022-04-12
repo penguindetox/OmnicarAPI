@@ -1,6 +1,3 @@
-const bluetooth = require('node-bluetooth');
+import { BluetoothHandler } from "./bluetooth/BluetoothHandler";
 
-// create bluetooth device instance
-const device = new bluetooth.DeviceINQ();
-
-device.listPairedDevices(console.log);
+var bluetoothhandle = new BluetoothHandler();
