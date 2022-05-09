@@ -6,7 +6,7 @@ var io = require('socket.io-client');
 var onscreencanvas = document.getElementById('videocanvas');
 //var faceapi = require('@vladmandic/face-api');
 const videoElement = document.getElementById('videocam');
-var boxpos = {_x:0,_y:0,_width:0,_height:0};
+var boxpos = {_x:0,_y:0,_width:0,_height:0,center:0};
 
 async function main(){
     var client = io('http://localhost:8080');
@@ -15,14 +15,15 @@ async function main(){
 
     client.on('boxdata',data =>{
         //context.clearRect(0,0,onscreencanvas.width,onscreencanvas.height);
-        console.log(data);
+        
         boxpos = data;
 
-        
+        boxpos["center"] = boxpos._y + boxpos._height / 2;
+        console.log(boxpos);
     });
 
     
-    var camdevicestream = await navigator.mediaDevices.getUserMedia({"audio":false,"video":{"frameRate":10,"facingMode":"user"}});
+    var camdevicestream = await navigator.mediaDevices.getUserMedia({"audio":false,"video":{"frameRate":7,"facingMode":"user"}});
     videoElement.srcObject = camdevicestream;
 
     videoElement.onloadeddata = async () =>{
@@ -34,7 +35,7 @@ async function main(){
         client.emit('videostream',{frame});
         
         
-    },1000 / 10)
+    },1000 / 7)
         //await getFrame(videoElement);
        
     }
