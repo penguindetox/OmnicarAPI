@@ -3,6 +3,8 @@ import readline from 'readline';
 import http from 'http';
 import { Server } from "socket.io";
 import fs from 'fs/promises';
+var opts;
+var player = require('play-sound')(opts = {})
 var tf = require('@tensorflow/tfjs-node');
 const server = http.createServer();
 const io = new Server(server);
@@ -56,6 +58,8 @@ lineinterface.on('line', line =>{
 
 
 var recentMovement = false;
+var audioplayed = false;
+
 io.on('connection', client =>{
     console.log("connected")
     client.on('videostream',stream =>{
@@ -64,11 +68,13 @@ io.on('connection', client =>{
         //fs.writeFile(__dirname +`/../out/${i}.png`,trueb64,'base64');
         var boxdata = detectFace(Buffer.from(stream.frame.replace(/^data:image\/png;base64,/, ""),'base64')).then(data =>{
             if(data[0]){
-                if(data[0]._box._y > 300&& !recentMovement){
+                if(data[0]._box._y > 300 && !recentMovement){
                     recentMovement = true;
                     setTimeout(() =>{
                         recentMovement = false;
-                    },1000)
+                    },1000);
+
+
                     //console.log("yes ",i);
                     console.log("forward")
                     bluetoothhandle.MoveForward();
@@ -81,6 +87,35 @@ io.on('connection', client =>{
                     },1000)
                     console.log("backwards")
                     bluetoothhandle.MoveBackwards();
+                }else{
+
+                    if(!audioplayed){
+                        var random = Math.random();
+                        if(random >= 0 && random < 0.2){
+                            player.play('car audio clip .mp3',function(err:any){
+                                if (err) throw err
+                              })
+                        }
+                        else if(random >= 0.2 && random < 0.4){
+                            player.play('car audio clip 3.mp3',function(err:any){
+                                if (err) throw err
+                              })
+                        }else if(random >= 0.4 && random < 0.6){
+                            player.play('car audio clip 2.mp3',function(err:any){
+                                if (err) throw err
+                              })
+                        }else if(random >= 0.6 && random < 0.8){
+                            
+                        player.play('car audio cliip 4.mp3',function(err:any){
+                            if (err) throw err
+                          })
+
+                        }else if(random >= 0.8 && random < 1){
+                            
+                        }
+                    }
+                    
+
                 }
                 io.emit("boxdata",data[0]._box);
             }

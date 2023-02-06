@@ -19,23 +19,22 @@ async function main(){
         boxpos = data;
 
         boxpos["center"] = boxpos._y + boxpos._height / 2;
-        console.log(boxpos);
     });
 
     
-    var camdevicestream = await navigator.mediaDevices.getUserMedia({"audio":false,"video":{"frameRate":7,"facingMode":"user"}});
+    var camdevicestream = await navigator.mediaDevices.getUserMedia({"audio":false,"video":{"frameRate":30,"facingMode":"user"}});
     videoElement.srcObject = camdevicestream;
 
     videoElement.onloadeddata = async () =>{
         videoElement.play();
         
-        console.log(client)
     setInterval(async () =>{
         var frame = await getFrame(videoElement);
+        console.log(frame);
         client.emit('videostream',{frame});
         
         
-    },1000 / 7)
+    },1000 / 30)
         //await getFrame(videoElement);
        
     }
